@@ -12,6 +12,7 @@ public class User {
 	private OutputStreamWriter writer;
 	private Socket socket;
 
+
 	public User(String name, OutputStreamWriter writer, Socket socket) {
 		this.name = name;
 		this.socket = socket;
