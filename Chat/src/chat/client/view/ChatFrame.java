@@ -79,7 +79,9 @@ public class ChatFrame extends JFrame implements PropertyChangeListener {
     nickName = new JTextField(20);
 
     listModel = new DefaultListModel<>();
-    listModel.addAll(model.getMessages());
+    if (model.getMessages() != null) {
+      listModel.addAll(model.getMessages());
+    }
 
     JList<ChatEntry> chatList = new JList<>(listModel);
     chatList.setCellRenderer(new ChatCellRenderer());
@@ -93,6 +95,8 @@ public class ChatFrame extends JFrame implements PropertyChangeListener {
     inputArea.setLineWrap(true);
     inputArea.setWrapStyleWord(true);
     inputArea.setBorder(new JTextField().getBorder());
+
+    addEventListeners();
   }
 
   /**
