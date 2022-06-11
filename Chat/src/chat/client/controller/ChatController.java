@@ -1,5 +1,9 @@
 package chat.client.controller;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+
 import chat.client.model.ChatClientModel;
 
 /**
@@ -7,11 +11,12 @@ import chat.client.model.ChatClientModel;
  */
 public class ChatController {
 
+  ChatClientModel model;
   // TODO: insert code here
 
   public ChatController(ChatClientModel model) {
     // TODO: insert code here
-
+    this.model = model;
   }
 
   /**
@@ -22,6 +27,12 @@ public class ChatController {
   public void login(final String nickname) {
     // TODO: insert code here
 
+    try {
+      model.logInWithName(nickname);
+    } catch (IOException | JSONException e) {
+      e.printStackTrace();
+    }
+    System.out.println(nickname);
   }
 
   /**

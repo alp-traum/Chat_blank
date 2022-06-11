@@ -13,12 +13,12 @@ public class ChatServer {
    */
   public static void main(String[] args) throws IOException {
     final ServerNetworkConnection connection = new ServerNetworkConnection();
-    connection.start();
+    connection.acceptConnections();
 
     Runtime.getRuntime().addShutdownHook(new Thread() {
       @Override
       public void run() {
-        connection.stop();
+        //connection.stop();
       }
     });
   }

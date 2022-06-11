@@ -1,11 +1,19 @@
 package chat.client.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import static java.util.Objects.requireNonNull;
 
 import chat.client.model.events.ChatEvent;
+import chat.client.model.events.LoggedInEvent;
 import chat.client.view.chatview.ChatEntry;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
 import java.util.Date;
 import java.util.List;
 
@@ -78,9 +86,11 @@ public class ChatClientModel {
    *
    * @param nickname the chosen nickname of the chat participant.
    */
-  public void logInWithName(String nickname) {
+  public void logInWithName(String nickname) throws IOException, JSONException {
     // TODO: insert code here
-
+    JSONObject j = new JSONObject().put("type", "login").put("nick", nickname);
+    // TODO: send JSON to server via socket
+    sendMessageToServer(connection.socket, j.toString());
   }
 
   /**
@@ -111,6 +121,8 @@ public class ChatClientModel {
    */
   public void loggedIn() {
     // TODO: insert code here
+    notifyListeners(new LoggedInEvent());
+
 
   }
 
@@ -162,6 +174,17 @@ public class ChatClientModel {
    */
   public void dispose() {
     // TODO: insert code here
+
+  }
+
+  private void sendMessageToServer(Socket socket, String message) throws IOException {
+
+    //BufferedWriter writer = new BufferedWriter(new
+      //      OutputStreamWriter(socket.getOutputStream()));
+
+    connection.writer.write(message + System.lineSeparator());
+    connection.writer.flush();
+    System.out.println(message);
 
   }
 }

@@ -1,5 +1,7 @@
 package chat.client.view;
 
+import org.json.JSONException;
+
 import static java.util.Objects.requireNonNull;
 
 import chat.client.controller.ChatController;
@@ -15,17 +17,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.io.Serial;
-import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
+
+import javax.swing.*;
 
 /**
  * The main view of the chat user interface. It provides and connects all graphical elements
@@ -96,14 +91,15 @@ public class ChatFrame extends JFrame implements PropertyChangeListener {
     inputArea.setWrapStyleWord(true);
     inputArea.setBorder(new JTextField().getBorder());
 
-    addEventListeners();
   }
 
   /**
    * Add event listeners to all widgets wherever needed and let them execute the respective action.
    */
   private void addEventListeners() {
-    nickName.addActionListener(e -> controller.login(nickName.getText()));
+    nickName.addActionListener(e -> {
+      controller.login(nickName.getText());
+    });
 
     inputArea.addKeyListener(new KeyAdapter() {
       @Override
@@ -174,7 +170,17 @@ public class ChatFrame extends JFrame implements PropertyChangeListener {
   private void handleModelUpdate(PropertyChangeEvent event) {
     Object newValue = event.getNewValue();
     // TODO: insert code here
-
+    switch (newValue.toString()) {
+      case "LoggedInEvent":
+        showChat();
+        break;
+      case "LoginFailedEvent":
+        //error window name used
+        JOptionPane.showMessageDialog(this, "Nickname already in use.");
+        break;
+      case "MessageAddedEvent":
+        scrollPane.add();
+    }
     // you can use the util-methods below to switch between the login- and chat-view
 
   }
