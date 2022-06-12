@@ -168,20 +168,21 @@ public class ChatFrame extends JFrame implements PropertyChangeListener {
    * @param event The {@link PropertyChangeEvent} that was fired by the model.
    */
   private void handleModelUpdate(PropertyChangeEvent event) {
+    System.out.println("Event: " + event);
     Object newValue = event.getNewValue();
-    // TODO: insert code here
-    System.out.println(newValue.toString());
-    switch (newValue.toString()) {
+    System.out.println("handleModelUpdate event class :" + newValue.getClass().getSimpleName());
+    switch (newValue.getClass().getSimpleName()) {
       case "LoggedInEvent":
         showChat();
         break;
       case "LoginFailedEvent":
-        //error window name used
+        //error window "name used"
         JOptionPane.showMessageDialog(this, "Nickname already in use.");
         break;
       case "MessageAddedEvent":
         //scrollPane.add();
         //add message to the chat history in scrollpane
+
     }
     // you can use the util-methods below to switch between the login- and chat-view
 

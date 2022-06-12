@@ -1,5 +1,8 @@
 package chat.client;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import chat.client.controller.ChatController;
 import chat.client.model.ChatClientModel;
 import chat.client.model.ClientNetworkConnection;
@@ -21,6 +24,12 @@ public class ChatClient {
     ClientNetworkConnection connection = new ClientNetworkConnection(model);
     model.setConnection(connection);
     connection.start();
+    chatFrame.addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent e) {
+        System.exit(0);
+      }
+    });
 
     chatFrame.setVisible(true);
   }

@@ -1,9 +1,5 @@
 package chat.client.controller;
 
-import org.json.JSONException;
-
-import java.io.IOException;
-
 import chat.client.model.ChatClientModel;
 
 /**

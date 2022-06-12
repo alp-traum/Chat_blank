@@ -60,7 +60,7 @@ public class ClientNetworkConnection extends Thread {
   @Override
   public void run() {
     // TODO: change to while(running)
-    while (true) {
+    while (running) {
       System.out.println("[ClientNetworkConnection:run()] waiting for Input from Server");
       try {
         String s = reader.readLine();
