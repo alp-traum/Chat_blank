@@ -121,7 +121,7 @@ public class ServerNetworkConnection {
     for (User user : userHashMap.values()) {
       if (user != originalSender) {
         OutputStreamWriter userOsw = user.getWriter();
-        userOsw.write(msg);
+        userOsw.write(msg + System.lineSeparator());
         userOsw.flush();
       }
     }
@@ -163,13 +163,14 @@ public class ServerNetworkConnection {
               if (userHashMap.containsKey(name)) {
                 JSONObject nameInUse = new JSONObject().put("type", "login failed");
                 System.out.println(nameInUse);
-                out.write(nameInUse.toString());
+                out.write(nameInUse.toString() + System.lineSeparator());
                 out.flush();
               } else {
                 thisUser = new User(name, out, socket);
                 userHashMap.put(name, thisUser);
-                out.write(new JSONObject().put("type", "login success").toString());
+                out.write(new JSONObject().put("type", "login success").toString() + System.lineSeparator());
                 out.flush();
+                System.out.println("Broadcasting new User to all clients");
                 broadcast(new JSONObject().put("type", "user joined").put("nick", name), thisUser);
               }
               System.out.println(userHashMap);

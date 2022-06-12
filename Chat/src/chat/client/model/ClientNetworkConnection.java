@@ -120,9 +120,7 @@ public class ClientNetworkConnection extends Thread {
     // TODO: insert code here
     try {
       JSONObject j = new JSONObject()
-              .put("type", "message")
-              .put("time", chatMessage.getTime())
-              .put("nick", chatMessage.getSource())
+              .put("type", "post message")
               .put("content", chatMessage.getContent());
       // TODO: send JSON to server via socket
       writer.write(j.toString() + System.lineSeparator());
