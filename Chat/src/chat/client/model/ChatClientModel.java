@@ -34,7 +34,6 @@ public class ChatClientModel {
    */
   public ChatClientModel() {
     support = new PropertyChangeSupport(this);
-
     // TODO: insert code here
 
   }
@@ -86,11 +85,9 @@ public class ChatClientModel {
    *
    * @param nickname the chosen nickname of the chat participant.
    */
-  public void logInWithName(String nickname) throws IOException, JSONException {
+  public void logInWithName(String nickname) {
     // TODO: insert code here
-    JSONObject j = new JSONObject().put("type", "login").put("nick", nickname);
-    // TODO: send JSON to server via socket
-    sendMessageToServer(connection.socket, j.toString());
+    connection.sendLogin(nickname);
   }
 
   /**
@@ -174,17 +171,6 @@ public class ChatClientModel {
    */
   public void dispose() {
     // TODO: insert code here
-
-  }
-
-  private void sendMessageToServer(Socket socket, String message) throws IOException {
-
-    //BufferedWriter writer = new BufferedWriter(new
-      //      OutputStreamWriter(socket.getOutputStream()));
-
-    connection.writer.write(message + System.lineSeparator());
-    connection.writer.flush();
-    System.out.println(message);
 
   }
 }

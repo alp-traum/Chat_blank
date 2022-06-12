@@ -44,7 +44,7 @@ public class ClientNetworkConnection extends Thread {
       reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       this.model = model;
     } catch (Exception e) {
-      System.out.println(e);
+      e.printStackTrace();
     }
   }
 
@@ -59,26 +59,23 @@ public class ClientNetworkConnection extends Thread {
 
   @Override
   public void run() {
-    while (running) {
+    // TODO: change to while(running)
+    System.out.println("[ClientNetworkConnection:run()] waiting for Input from Server");
+    while (true) {
       try {
         JSONObject input = new JSONObject(reader.readLine());
+        System.out.println("[ClientNetworkConnection:run()] Original JSON" + input);
         switch (input.getString("type")){
           case "login success":
             model.loggedIn();
+            System.out.println("[ClientNetworkConnection:run()] login success");
+            System.out.println("[ClientNetworkConnection:run()] Original JSON" + input);
             break;
           case "login failed":
             model.loginFailed();
             break;
-
-
         }
-
-        if (input.getString("type").equals("login success")) {
-          model.loggedIn();
-        }
-      } catch (JSONException e) {
-        throw new RuntimeException(e);
-      } catch (IOException e) {
+      } catch (JSONException | IOException e) {
         throw new RuntimeException(e);
       }
     }
@@ -101,6 +98,15 @@ public class ClientNetworkConnection extends Thread {
    */
   public void sendLogin(String nickname) {
     // TODO: insert code here
+    try {
+      JSONObject j = new JSONObject().put("type", "login").put("nick", nickname);
+      // TODO: send JSON to server via socket
+      writer.write(j.toString() + System.lineSeparator());
+      writer.flush();
+      System.out.println(j);
+    } catch (JSONException | IOException e) {
+      e.printStackTrace();
+    }
 
   }
 

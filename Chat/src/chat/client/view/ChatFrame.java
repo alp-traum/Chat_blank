@@ -179,7 +179,8 @@ public class ChatFrame extends JFrame implements PropertyChangeListener {
         JOptionPane.showMessageDialog(this, "Nickname already in use.");
         break;
       case "MessageAddedEvent":
-        scrollPane.add();
+        //scrollPane.add();
+        //add message to the chat history in scrollpane
     }
     // you can use the util-methods below to switch between the login- and chat-view
 

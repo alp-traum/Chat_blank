@@ -107,11 +107,17 @@ public class ServerNetworkConnection {
   public void broadcast(JSONObject broadcast, User originalSender) throws JSONException, IOException {
     Date date = new Date();
     String time = sdf.format(new Timestamp(date.getTime()));
-    String msg = new JSONObject()
-            .put("type", "message")
-            .put("time", time)
-            .put("nick", originalSender.getName())
-            .put("content", broadcast.get("content")).toString();
+    String msg;
+    if (broadcast.getString("type").equals("user joined")) {
+      msg = broadcast.toString();
+    } else {
+      msg = new JSONObject()
+              .put("type", "message")
+              .put("time", time)
+              .put("nick", originalSender.getName())
+              .put("content", broadcast.get("content")).toString();
+    }
+
     for (User user : userHashMap.values()) {
       if (user != originalSender) {
         OutputStreamWriter userOsw = user.getWriter();
@@ -173,6 +179,8 @@ public class ServerNetworkConnection {
                 broadcast(incoming, thisUser);
               }
               break;
+            default:
+              System.out.println("No accepted Type in JSON");
             }
           }
         } catch (IOException | JSONException e) {

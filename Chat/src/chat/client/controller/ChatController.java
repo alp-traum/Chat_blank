@@ -26,12 +26,7 @@ public class ChatController {
    */
   public void login(final String nickname) {
     // TODO: insert code here
-
-    try {
-      model.logInWithName(nickname);
-    } catch (IOException | JSONException e) {
-      e.printStackTrace();
-    }
+    model.logInWithName(nickname);
     System.out.println(nickname);
   }
 
