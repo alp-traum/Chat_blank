@@ -21,7 +21,6 @@ import java.util.HashMap;
  */
 public class ServerNetworkConnection {
 
-	// TODO: insert code here
 	ServerSocket serverSocket;
 	private HashMap<String, User> userHashMap = new HashMap<>();
 
@@ -34,7 +33,7 @@ public class ServerNetworkConnection {
 	/**
 	 * TODO: insert JavaDoc
 	 */
-	public ServerNetworkConnection() throws IOException {
+	public ServerNetworkConnection() {
 		// TODO: insert code here
 
 
@@ -61,49 +60,10 @@ public class ServerNetworkConnection {
 			System.out.println(e);
 		}
 	}
-	//public void run() {
-	// }
 
-	/**
-	 try {
-	 Socket clientSocket = serverSocket.accept();
-	 OutputStreamWriter out = new OutputStreamWriter(clientSocket.getOutputStream(), StandardCharsets.UTF_8);
-	 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), StandardCharsets.UTF_8));
-
-	 JSONObject incoming = new JSONObject(in.readLine());
-	 switch (incoming.getString("type")) {
-	 case "login":
-	 String name = incoming.getString("nick");
-	 if (userHashMap.containsKey(name)) {
-	 out.write(new JSONObject().put("type", "login failed").toString());
-
-	 } else {
-	 userHashMap.put(name, new User(name, out, clientSocket));
-	 out.write(new JSONObject().put("type", "user joined").put("nick", name).toString());
-	 }
-	 case "post message":
-	 String message = incoming.getString("content");
-	 broadcast(incoming, this.user);
-
-	 }
-
-
-	 } catch (IOException | JSONException e) {
-	 throw new RuntimeException(e);
-	 }
-
-	 }
-	 **/
-
-	/**
-	 * Start the network-connection such that clients can establish a connection to this server.
-	 */
-	/**
-	 public void start() throws IOException {
-	 // TODO: insert code here
-
-	 }
-	 **/
+	public void start() {
+		listening = true;
+	}
 
 	/**
 	 * Method broadcasts method to all clients except the sender.
@@ -145,11 +105,10 @@ public class ServerNetworkConnection {
 	/**
 	 * Stop the network-connection.
 	 */
-	/**
-	 * public void stop() { // TODO insert code here
-	 *
-	 * }
-	 **/
+	public void stop() {
+		listening = false;
+	}
+
 
 	class ClientHandler implements Runnable {
 		Socket socket;
@@ -165,10 +124,11 @@ public class ServerNetworkConnection {
 
 		private void receiveJson() {
 			User thisUser = null;
+			listening = true;
 			try {
 				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
 				OutputStreamWriter out = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
-				while (true) {
+				while (listening) {
 					System.out.println("Listening for incoming messages...");
 					String s = in.readLine();
 					System.out.println(s);

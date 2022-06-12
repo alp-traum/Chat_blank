@@ -1,8 +1,5 @@
 package chat.client.model;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import static java.util.Objects.requireNonNull;
 
 import chat.client.model.events.ChatEvent;
@@ -13,16 +10,10 @@ import chat.client.view.chatview.ChatEntry;
 import chat.client.view.chatview.UserJoinedMessage;
 import chat.client.view.chatview.UserLeftMessage;
 import chat.client.view.chatview.UserTextMessage;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * The model of the chat-client. Manages all the internal data belonging to a single chat client.
@@ -174,10 +165,9 @@ public class ChatClientModel {
    * Add a status-update entry "User has left the chat" to the list of chat entries.
    * Used by the network layer to update the model accordingly.
    *
-   * @param nickname
+   * @param nickname nickname extracted from JSON (message from server).
    */
   public void userLeft(String nickname) {
-    // TODO: insert code here
     UserLeftMessage userLeftMessage = new UserLeftMessage(nickname);
     messages.add(userLeftMessage);
     notifyListeners(new MessageAddedEvent(userLeftMessage));

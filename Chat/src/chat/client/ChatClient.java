@@ -1,18 +1,22 @@
 package chat.client;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
 import chat.client.controller.ChatController;
 import chat.client.model.ChatClientModel;
 import chat.client.model.ClientNetworkConnection;
 import chat.client.view.ChatFrame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * Starts the chat-client.
  */
 public class ChatClient {
 
+  /**
+   * Main method initializes MVP components of the client side.
+   *
+   * @param args main method.
+   */
   public static void main(String[] args) {
 
     ChatClientModel model = new ChatClientModel();

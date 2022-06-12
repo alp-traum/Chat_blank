@@ -1,21 +1,16 @@
 package chat.client.model;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import chat.client.view.chatview.UserTextMessage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Objects;
-
-import chat.client.view.chatview.UserTextMessage;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * The network-connection of the client. Establishes a connection to the server and takes
@@ -36,10 +31,12 @@ public class ClientNetworkConnection extends Thread {
 
   private volatile boolean running = false;
 
-  // TODO: insert code here
-
+  /**
+   * Constructor of a new network connection with new client socket, reader, and writer.
+   *
+   * @param model client model initiated in ChatClient.
+   */
   public ClientNetworkConnection(ChatClientModel model) {
-    // TODO: insert code here
     try {
       socket = new Socket(HOST, PORT);
       writer = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
@@ -70,7 +67,7 @@ public class ClientNetworkConnection extends Thread {
         String s = reader.readLine();
         System.out.println("[ClientNetworkConnection:run()] Original JSON from server" + s);
         JSONObject input = new JSONObject(s);
-        switch (input.getString("type")){
+        switch (input.getString("type")) {
           case "login success":
             model.loggedIn();
             System.out.println("[ClientNetworkConnection:run()] Original JSON" + input);
@@ -88,22 +85,14 @@ public class ClientNetworkConnection extends Thread {
           case "user left":
             model.userLeft(input.getString("nick"));
             break;
+          default:
+            System.out.println("Unknown \"type\" field in JSON from server");
         }
       } catch (JSONException | IOException e) {
         throw new RuntimeException(e);
       }
     }
   }
-
-  /**
-   * Stop the network-connection.
-   */
-  /**
-  public void stop() {
-    // TODO: insert code here
-    super.stop();
-  }
-  **/
 
   /**
    * Send a login-request to the server.
@@ -139,7 +128,8 @@ public class ClientNetworkConnection extends Thread {
       writer.write(j.toString() + System.lineSeparator());
       writer.flush();
 
-      model.addTextMessage(chatMessage.getSource(), chatMessage.getTime(), chatMessage.getContent());
+      model.addTextMessage(chatMessage.getSource(),
+              chatMessage.getTime(), chatMessage.getContent());
     } catch (JSONException | IOException e) {
       e.printStackTrace();
     }
