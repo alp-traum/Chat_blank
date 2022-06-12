@@ -69,12 +69,15 @@ public class ClientNetworkConnection extends Thread {
         switch (input.getString("type")){
           case "login success":
             model.loggedIn();
-            System.out.println("[ClientNetworkConnection:run()] login success");
             System.out.println("[ClientNetworkConnection:run()] Original JSON" + input);
             break;
           case "login failed":
             model.loginFailed();
             break;
+          case "user joined":
+            model.userJoined(input.getString("nick"));
+            break;
+
         }
       } catch (JSONException | IOException e) {
         throw new RuntimeException(e);
@@ -125,6 +128,8 @@ public class ClientNetworkConnection extends Thread {
       // TODO: send JSON to server via socket
       writer.write(j.toString() + System.lineSeparator());
       writer.flush();
+
+      model.addTextMessage(chatMessage.getSource(), chatMessage.getTime(), chatMessage.getContent());
     } catch (JSONException | IOException e) {
       e.printStackTrace();
     }

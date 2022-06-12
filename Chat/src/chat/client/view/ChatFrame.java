@@ -170,6 +170,7 @@ public class ChatFrame extends JFrame implements PropertyChangeListener {
   private void handleModelUpdate(PropertyChangeEvent event) {
     Object newValue = event.getNewValue();
     // TODO: insert code here
+    System.out.println(newValue.toString());
     switch (newValue.toString()) {
       case "LoggedInEvent":
         showChat();

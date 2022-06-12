@@ -7,7 +7,10 @@ import static java.util.Objects.requireNonNull;
 
 import chat.client.model.events.ChatEvent;
 import chat.client.model.events.LoggedInEvent;
+import chat.client.model.events.LoginFailedEvent;
+import chat.client.model.events.MessageAddedEvent;
 import chat.client.view.chatview.ChatEntry;
+import chat.client.view.chatview.UserJoinedMessage;
 import chat.client.view.chatview.UserTextMessage;
 
 import java.beans.PropertyChangeListener;
@@ -16,6 +19,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +40,7 @@ public class ChatClientModel {
    */
   public ChatClientModel() {
     support = new PropertyChangeSupport(this);
+    messages = new ArrayList<>();
     // TODO: insert code here
 
   }
@@ -132,7 +137,7 @@ public class ChatClientModel {
    */
   public void loginFailed() {
     // TODO: insert code here
-
+    notifyListeners(new LoginFailedEvent());
   }
 
   /**
@@ -145,7 +150,8 @@ public class ChatClientModel {
    */
   public void addTextMessage(String nickname, Date date, String content) {
     // TODO: insert code here
-
+    UserTextMessage userTextMessage = new UserTextMessage(nickname, date, content);
+    messages.add(userTextMessage);
   }
 
   /**
@@ -156,7 +162,9 @@ public class ChatClientModel {
    */
   public void userJoined(String nickname) {
     // TODO: insert code here
-
+    UserJoinedMessage userJoinedMessage = new UserJoinedMessage(nickname);
+    messages.add(userJoinedMessage);
+    notifyListeners(new MessageAddedEvent(userJoinedMessage));
   }
 
   /**
