@@ -60,11 +60,14 @@ public class ClientNetworkConnection extends Thread {
   @Override
   public void run() {
     // TODO: change to while(running)
-    System.out.println("[ClientNetworkConnection:run()] waiting for Input from Server");
+
     while (true) {
+      System.out.println("[ClientNetworkConnection:run()] waiting for Input from Server");
+
       try {
-        JSONObject input = new JSONObject(reader.readLine());
-        System.out.println("[ClientNetworkConnection:run()] Original JSON" + input);
+        String s = reader.readLine();
+        System.out.println("[ClientNetworkConnection:run()] Original JSON from server" + s);
+        JSONObject input = new JSONObject(s);
         switch (input.getString("type")){
           case "login success":
             model.loggedIn();

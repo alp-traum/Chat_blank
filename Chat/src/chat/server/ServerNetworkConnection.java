@@ -161,11 +161,15 @@ public class ServerNetworkConnection {
             case "login":
               String name = incoming.getString("nick");
               if (userHashMap.containsKey(name)) {
-                out.write(new JSONObject().put("type", "login failed").toString());
+                JSONObject nameInUse = new JSONObject().put("type", "login failed");
+                System.out.println(nameInUse);
+                out.write(nameInUse.toString());
+                out.flush();
               } else {
                 thisUser = new User(name, out, socket);
                 userHashMap.put(name, thisUser);
                 out.write(new JSONObject().put("type", "login success").toString());
+                out.flush();
                 broadcast(new JSONObject().put("type", "user joined").put("nick", name), thisUser);
               }
               System.out.println(userHashMap);
