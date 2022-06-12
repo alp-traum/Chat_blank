@@ -1,5 +1,6 @@
 package chat.client.view.chatview;
 
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -24,19 +25,18 @@ public class UserTextMessage extends ChatEntry {
   public String getSource() {
     // TODO insert code here
 
-    return null;
+    return source;
   }
 
   public Date getTime() {
     // TODO insert code here
-
-    return null;
+    return time;
   }
 
   public String getContent() {
     // TODO insert code here
 
-    return null;
+    return content;
   }
 
   @Override

@@ -8,6 +8,8 @@ import static java.util.Objects.requireNonNull;
 import chat.client.model.events.ChatEvent;
 import chat.client.model.events.LoggedInEvent;
 import chat.client.view.chatview.ChatEntry;
+import chat.client.view.chatview.UserTextMessage;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.BufferedWriter;
@@ -97,7 +99,9 @@ public class ChatClientModel {
    */
   public void postMessage(String message) {
     // TODO: insert code here
-
+    Date time = new Date();
+    UserTextMessage msg = new UserTextMessage(nickname, time, message);
+    connection.sendMessage(msg);
   }
 
   /**

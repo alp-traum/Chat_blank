@@ -37,7 +37,7 @@ public class ChatController {
    */
   public void postMessage(final String text) {
     // TODO: insert code here
-
+    model.postMessage(text);
   }
 
   /**

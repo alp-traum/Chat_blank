@@ -60,10 +60,8 @@ public class ClientNetworkConnection extends Thread {
   @Override
   public void run() {
     // TODO: change to while(running)
-
     while (true) {
       System.out.println("[ClientNetworkConnection:run()] waiting for Input from Server");
-
       try {
         String s = reader.readLine();
         System.out.println("[ClientNetworkConnection:run()] Original JSON from server" + s);
@@ -120,6 +118,17 @@ public class ClientNetworkConnection extends Thread {
    */
   public void sendMessage(UserTextMessage chatMessage) {
     // TODO: insert code here
-
+    try {
+      JSONObject j = new JSONObject()
+              .put("type", "message")
+              .put("time", chatMessage.getTime())
+              .put("nick", chatMessage.getSource())
+              .put("content", chatMessage.getContent());
+      // TODO: send JSON to server via socket
+      writer.write(j.toString() + System.lineSeparator());
+      writer.flush();
+    } catch (JSONException | IOException e) {
+      e.printStackTrace();
+    }
   }
 }
