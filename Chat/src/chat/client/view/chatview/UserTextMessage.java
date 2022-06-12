@@ -23,19 +23,14 @@ public class UserTextMessage extends ChatEntry {
   }
 
   public String getSource() {
-    // TODO insert code here
-
     return source;
   }
 
   public Date getTime() {
-    // TODO insert code here
     return time;
   }
 
   public String getContent() {
-    // TODO insert code here
-
     return content;
   }
 

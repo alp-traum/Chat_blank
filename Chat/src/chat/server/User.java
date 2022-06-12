@@ -3,7 +3,6 @@ package chat.server;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
-// TODO: Example of a starter template for managing a single connected client at the server
 // Use and/or change this class as needed for your implementation
 
 public class User {

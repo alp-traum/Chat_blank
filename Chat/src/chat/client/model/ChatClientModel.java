@@ -34,8 +34,6 @@ public class ChatClientModel {
   public ChatClientModel() {
     support = new PropertyChangeSupport(this);
     messages = new ArrayList<>();
-    // TODO: insert code here
-
   }
 
   /**
@@ -86,7 +84,6 @@ public class ChatClientModel {
    * @param nickname the chosen nickname of the chat participant.
    */
   public void logInWithName(String nickname) {
-    // TODO: insert code here
     connection.sendLogin(nickname);
     this.nickname = nickname;
   }
@@ -97,7 +94,6 @@ public class ChatClientModel {
    * @param message The message to be broadcast.
    */
   public void postMessage(String message) {
-    // TODO: insert code here
     Date time = new Date();
     UserTextMessage msg = new UserTextMessage(nickname, time, message);
     connection.sendMessage(msg);
@@ -110,8 +106,6 @@ public class ChatClientModel {
    * @return a list containing the entries of the chat.
    */
   public ArrayList<ChatEntry> getMessages() {
-    // TODO: insert code here
-
     return messages;
   }
 
@@ -120,20 +114,15 @@ public class ChatClientModel {
    * to the subscribed listeners.
    */
   public void loggedIn() {
-    // TODO: insert code here
     LoggedInMessage loggedInMessage = new LoggedInMessage(nickname);
-
     messages.add(loggedInMessage);
     notifyListeners(new LoggedInEvent());
-
-
   }
 
   /**
    * Notify the subscribed observers that a login attempt has failed.
    */
   public void loginFailed() {
-    // TODO: insert code here
     notifyListeners(new LoginFailedEvent());
   }
 
@@ -158,7 +147,6 @@ public class ChatClientModel {
    * @param nickname The name of the newly joined user.
    */
   public void userJoined(String nickname) {
-    // TODO: insert code here
     UserJoinedMessage userJoinedMessage = new UserJoinedMessage(nickname);
     messages.add(userJoinedMessage);
     notifyListeners(new MessageAddedEvent(userJoinedMessage));
@@ -180,7 +168,6 @@ public class ChatClientModel {
    * Cleanup the resources.
    */
   public void dispose() {
-    // TODO: insert code here
 
   }
 }

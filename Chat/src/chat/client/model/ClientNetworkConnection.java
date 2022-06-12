@@ -60,7 +60,6 @@ public class ClientNetworkConnection extends Thread {
 
   @Override
   public void run() {
-    // TODO: change to while(running)
     while (running && socket != null) {
       System.out.println("[ClientNetworkConnection:run()] waiting for Input from Server");
       try {
@@ -100,10 +99,8 @@ public class ClientNetworkConnection extends Thread {
    * @param nickname The name of the user that requests to log in.
    */
   public void sendLogin(String nickname) {
-    // TODO: insert code here
     try {
       JSONObject j = new JSONObject().put("type", "login").put("nick", nickname);
-      // TODO: send JSON to server via socket
       writer.write(j.toString() + System.lineSeparator());
       writer.flush();
       System.out.println(j);
@@ -119,12 +116,10 @@ public class ClientNetworkConnection extends Thread {
    * @param chatMessage The {@link UserTextMessage} containing the message of the user.
    */
   public void sendMessage(UserTextMessage chatMessage) {
-    // TODO: insert code here
     try {
       JSONObject j = new JSONObject()
               .put("type", "post message")
               .put("content", chatMessage.getContent());
-      // TODO: send JSON to server via socket
       writer.write(j.toString() + System.lineSeparator());
       writer.flush();
 
