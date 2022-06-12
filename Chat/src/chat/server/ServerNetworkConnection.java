@@ -176,7 +176,7 @@ public class ServerNetworkConnection {
 					switch (incoming.getString("type")) {
 						case "login":
 							String name = incoming.getString("nick");
-							if (userHashMap.containsKey(name)) {
+							if (userHashMap.containsKey(name) || name.equals("")) {
 								JSONObject nameInUse = new JSONObject().put("type", "login failed");
 								System.out.println(nameInUse);
 								out.write(nameInUse.toString() + System.lineSeparator());
@@ -192,11 +192,10 @@ public class ServerNetworkConnection {
 							System.out.println(userHashMap);
 							break;
 						case "post message":
-							String message = incoming.getString("content");
-							// TODO: check if user is null
 							if (thisUser == null) {
 								System.out.println("No User logged in.");
 							} else {
+								System.out.println("Post message: " + incoming);
 								broadcast(incoming, thisUser);
 							}
 							break;

@@ -11,6 +11,7 @@ import chat.client.model.events.LoginFailedEvent;
 import chat.client.model.events.MessageAddedEvent;
 import chat.client.view.chatview.ChatEntry;
 import chat.client.view.chatview.UserJoinedMessage;
+import chat.client.view.chatview.UserLeftMessage;
 import chat.client.view.chatview.UserTextMessage;
 
 import java.beans.PropertyChangeListener;
@@ -30,7 +31,7 @@ public class ChatClientModel {
 
   private ClientNetworkConnection connection;
   private final PropertyChangeSupport support;
-  private List<ChatEntry> messages;
+  private ArrayList<ChatEntry> messages;
 
   private String nickname;
 
@@ -95,6 +96,7 @@ public class ChatClientModel {
   public void logInWithName(String nickname) {
     // TODO: insert code here
     connection.sendLogin(nickname);
+    this.nickname = nickname;
   }
 
   /**
@@ -115,10 +117,10 @@ public class ChatClientModel {
    *
    * @return a list containing the entries of the chat.
    */
-  public List<ChatEntry> getMessages() {
+  public ArrayList<ChatEntry> getMessages() {
     // TODO: insert code here
 
-    return null;
+    return messages;
   }
 
   /**
@@ -127,6 +129,7 @@ public class ChatClientModel {
    */
   public void loggedIn() {
     // TODO: insert code here
+
     notifyListeners(new LoggedInEvent());
 
 
@@ -149,9 +152,9 @@ public class ChatClientModel {
    * @param content  The actual content (text) that the participant had sent.
    */
   public void addTextMessage(String nickname, Date date, String content) {
-    // TODO: insert code here
     UserTextMessage userTextMessage = new UserTextMessage(nickname, date, content);
     messages.add(userTextMessage);
+    notifyListeners(new MessageAddedEvent(userTextMessage));
   }
 
   /**
@@ -175,7 +178,9 @@ public class ChatClientModel {
    */
   public void userLeft(String nickname) {
     // TODO: insert code here
-
+    UserLeftMessage userLeftMessage = new UserLeftMessage(nickname);
+    messages.add(userLeftMessage);
+    notifyListeners(new MessageAddedEvent(userLeftMessage));
   }
 
   /**

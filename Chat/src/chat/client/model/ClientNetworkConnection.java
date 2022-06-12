@@ -8,8 +8,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 
 import chat.client.view.chatview.UserTextMessage;
@@ -43,6 +46,8 @@ public class ClientNetworkConnection extends Thread {
       System.out.println("Writer created");
       reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       this.model = model;
+    } catch (ConnectException ce) {
+      System.out.println(ce + " no server available.");
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -52,7 +57,6 @@ public class ClientNetworkConnection extends Thread {
    * Start the network connection.
    */
   public void start() {
-    // TODO: insert code here
     running = true;
     super.start();
   }
@@ -60,7 +64,7 @@ public class ClientNetworkConnection extends Thread {
   @Override
   public void run() {
     // TODO: change to while(running)
-    while (running) {
+    while (running && socket != null) {
       System.out.println("[ClientNetworkConnection:run()] waiting for Input from Server");
       try {
         String s = reader.readLine();
@@ -77,7 +81,13 @@ public class ClientNetworkConnection extends Thread {
           case "user joined":
             model.userJoined(input.getString("nick"));
             break;
-
+          case "message":
+            Date time = new Date();
+            model.addTextMessage(input.getString("nick"), time, input.getString("content"));
+            break;
+          case "user left":
+            model.userLeft(input.getString("nick"));
+            break;
         }
       } catch (JSONException | IOException e) {
         throw new RuntimeException(e);

@@ -8,11 +8,8 @@ import chat.client.controller.ChatController;
 import chat.client.model.ChatClientModel;
 import chat.client.view.chatview.ChatCellRenderer;
 import chat.client.view.chatview.ChatEntry;
-import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
@@ -182,10 +179,16 @@ public class ChatFrame extends JFrame implements PropertyChangeListener {
       case "MessageAddedEvent":
         //scrollPane.add();
         //add message to the chat history in scrollpane
+        //Liste listModel
+        listModel.removeAllElements();
+        listModel.addAll(model.getMessages());
+        System.out.println(model.getMessages());
+        System.out.println(listModel);
+        revalidate();
+        repaint();
+        break;
 
     }
-    // you can use the util-methods below to switch between the login- and chat-view
-
   }
 
   /**
