@@ -1,23 +1,32 @@
 package chat.client.view;
 
-import org.json.JSONException;
-
 import static java.util.Objects.requireNonNull;
 
 import chat.client.controller.ChatController;
 import chat.client.model.ChatClientModel;
 import chat.client.view.chatview.ChatCellRenderer;
 import chat.client.view.chatview.ChatEntry;
-
-import java.awt.*;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
 import java.io.Serial;
-
-import javax.swing.*;
+import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.ScrollPaneConstants;
 
 /**
  * The main view of the chat user interface. It provides and connects all graphical elements
@@ -170,6 +179,10 @@ public class ChatFrame extends JFrame implements PropertyChangeListener {
     System.out.println("handleModelUpdate event class :" + newValue.getClass().getSimpleName());
     switch (newValue.getClass().getSimpleName()) {
       case "LoggedInEvent":
+        listModel.removeAllElements();
+        listModel.addAll(model.getMessages());
+        revalidate();
+        repaint();
         showChat();
         break;
       case "LoginFailedEvent":
@@ -177,9 +190,6 @@ public class ChatFrame extends JFrame implements PropertyChangeListener {
         JOptionPane.showMessageDialog(this, "Nickname already in use.");
         break;
       case "MessageAddedEvent":
-        //scrollPane.add();
-        //add message to the chat history in scrollpane
-        //Liste listModel
         listModel.removeAllElements();
         listModel.addAll(model.getMessages());
         System.out.println(model.getMessages());
@@ -187,19 +197,20 @@ public class ChatFrame extends JFrame implements PropertyChangeListener {
         revalidate();
         repaint();
         break;
-
+      default:
+        System.out.println("Unknown PropertyChangeEvent");
     }
   }
 
   /**
-   * Show the login view to the user
+   * Show the login view to the user.
    */
   private void showLogin() {
     showCard(LOGIN_CARD);
   }
 
   /**
-   * Show the chat view to the user
+   * Show the chat view to the user.
    */
   private void showChat() {
     showCard(CHAT_CARD);

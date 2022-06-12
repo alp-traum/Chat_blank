@@ -7,6 +7,7 @@ import chat.client.model.events.LoggedInEvent;
 import chat.client.model.events.LoginFailedEvent;
 import chat.client.model.events.MessageAddedEvent;
 import chat.client.view.chatview.ChatEntry;
+import chat.client.view.chatview.LoggedInMessage;
 import chat.client.view.chatview.UserJoinedMessage;
 import chat.client.view.chatview.UserLeftMessage;
 import chat.client.view.chatview.UserTextMessage;
@@ -120,7 +121,9 @@ public class ChatClientModel {
    */
   public void loggedIn() {
     // TODO: insert code here
+    LoggedInMessage loggedInMessage = new LoggedInMessage(nickname);
 
+    messages.add(loggedInMessage);
     notifyListeners(new LoggedInEvent());
 
 
